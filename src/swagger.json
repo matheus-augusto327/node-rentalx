@@ -1,0 +1,179 @@
+{
+    "openapi": "3.0.0",
+    "info":{
+        "title": "RentCar API Reference",
+        "description": "This is a API Reference for Rent",
+        "contact":{
+            "name": "Bento Pedro",
+            "email": "bentomenni.kidima@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+
+    "paths":{
+        "/categories": {
+            "post":{
+                "tags":["Category"],
+                "summary": "Create a category",
+                "description": "Create a new category",
+                "requestBody": {
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "type":"object",
+                                "properties":{
+                                    "name": {
+                                        "type":"string"
+                                    },
+                                    "description": {
+                                        "type":"string"
+                                    }
+                                },
+                                "examples":{
+                                    "name":"Category Name",
+                                    "description":"Category Description"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201":{
+                        "description": "Created category"
+                    },
+                    "404":{
+                        "description": "Category could not be created"
+                    },
+                    "500":{
+                        "description": "Category could not be created"
+                    }
+                }
+            },
+            "get": {
+                "tags": ["Category"],
+                "summary": "List All Category",
+                "description": "List All category",
+                "responses": {
+                    "200":{
+                        "description": "Success",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "type":"array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties":{
+                                            "name":{
+                                                "type": "string"
+                                            },
+                                            "description":{
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                
+            }
+        },
+        "/categories/import":{
+            "post":{
+                "tags":["Category"],
+                "summary":"Upload categories",
+                "description": "Uploads a list of categories",
+                "requestBody":{
+                    "content":{
+                        "multipart/form-data":{
+                            "schema":{
+                                "type":"object",
+                                "properties":{
+                                    "file":{
+                                        "type":"string",
+                                        "format": "binary"
+                                    }
+                                }                             
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "201":{
+                        "description": "Categories was successful imported"
+                    }
+                }
+            }
+        },
+        "/specifications": {
+            "post":{
+                "tags":["Specification"],
+                "summary": "Create a specification",
+                "description": "Create a new specification",
+                "requestBody": {
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "type":"object",
+                                "properties":{
+                                    "name": {
+                                        "type":"string"
+                                    },
+                                    "description": {
+                                        "type":"string"
+                                    }
+                                },
+                                "examples":{
+                                    "name":"Specification Name",
+                                    "description":"Specification Description"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201":{
+                        "description": "Created specification"
+                    },
+                    "404":{
+                        "description": "Specification could not be created"
+                    },
+                    "500":{
+                        "description": "Specification could not be created"
+                    }
+                }
+            },
+            "get": {
+                "tags": ["Specification"],
+                "summary": "List All Specification",
+                "description": "List All Specification",
+                "responses": {
+                    "200":{
+                        "description": "Success",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "type":"array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties":{
+                                            "name":{
+                                                "type": "string"
+                                            },
+                                            "description":{
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                
+            }
+        }
+
+    }
+}
