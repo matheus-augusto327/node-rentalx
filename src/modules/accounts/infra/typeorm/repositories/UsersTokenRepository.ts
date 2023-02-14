@@ -25,6 +25,21 @@ class UsersTokenRepository implements IUsersTokenRepository {
 
     return userToken;
   }
+
+  async findByUserIdAndrefreshToken(
+    user_id: string,
+    refresh_token
+  ): Promise<UserTokens> {
+    const usersTokens = await this.repository.findOne({
+      user_id,
+      refresh_token,
+    });
+    return usersTokens;
+  }
+
+  async deleteById(id: string): Promise<void> {
+    await this.repository.delete(id);
+  }
 }
 
 export { UsersTokenRepository };
