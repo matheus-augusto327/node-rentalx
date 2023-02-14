@@ -1,21 +1,21 @@
-import { AppError } from '@errors/AppError';
-import { CategoriesRepositoryFake } from '@modules/cars/repositories/fakes/FakeCategoriesRepository';
+import { AppError } from "@errors/AppError";
+import { CategoriesRepositoryFake } from "@modules/cars/repositories/fakes/FakeCategoriesRepository";
 
-import { CreateCategoryUseCase } from './CreateCategoryUseCase';
+import { CreateCategoryUseCase } from "./CreateCategoryUseCase";
 
 let createCategoryUseCase: CreateCategoryUseCase;
 let categoriesRepositoryFake: CategoriesRepositoryFake;
 
-describe('Create Category', () => {
+describe("Create Category", () => {
   beforeEach(() => {
     categoriesRepositoryFake = new CategoriesRepositoryFake();
     createCategoryUseCase = new CreateCategoryUseCase(categoriesRepositoryFake);
   });
 
-  it('shoul be able to create a new category', async () => {
+  it("shoul be able to create a new category", async () => {
     const category = {
-      name: 'Category Test',
-      description: 'Category description Test',
+      name: "Category Test",
+      description: "Category description Test",
     };
 
     await createCategoryUseCase.execute({
@@ -23,15 +23,17 @@ describe('Create Category', () => {
       description: category.description,
     });
 
-    const categoryCreated = await categoriesRepositoryFake.findByName(category.name);
+    const categoryCreated = await categoriesRepositoryFake.findByName(
+      category.name
+    );
 
-    expect(categoryCreated).toHaveProperty('id');
+    expect(categoryCreated).toHaveProperty("id");
   });
 
-  it('shoul not be able to create a new category with name duplicated ', async () => {
+  it("shoul not be able to create a new category with duplicated name", async () => {
     const category = {
-      name: 'Category Test',
-      description: 'Category description Test',
+      name: "Category Test",
+      description: "Category description Test",
     };
 
     await createCategoryUseCase.execute({
@@ -39,9 +41,11 @@ describe('Create Category', () => {
       description: category.description,
     });
 
-    expect(createCategoryUseCase.execute({
-      name: category.name,
-      description: category.description,
-    })).rejects.toBeInstanceOf(AppError);
+    await expect(
+      createCategoryUseCase.execute({
+        name: category.name,
+        description: category.description,
+      })
+    ).rejects.toEqual(new AppError("Cateogry already exists!"));
   });
 });
