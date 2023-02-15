@@ -1,18 +1,28 @@
 import { AppError } from "@errors/AppError";
 import { ICreateUserDTO } from "@modules/accounts/repositories/dtos/ICreateUserDTO";
 import { FakeUsersRepository } from "@modules/accounts/repositories/fakes/FakeUsersRepository";
+import { FakeUserTokensRepository } from "@modules/accounts/repositories/fakes/FakeUserTokensRepository";
 import { CreateUserUseCase } from "@modules/accounts/UseCases/createUser/CreateUserUseCase";
+import { DayjsDateProvider } from "@shared/container/providers/DateProvider/implementations/DayjsDateProvider";
 
 import { AuthenticateUserUseCase } from "./AuthenticateUserUseCase";
 
 let authenticateUserUseCase: AuthenticateUserUseCase;
 let fakeUsersRepository: FakeUsersRepository;
+let fakeUserTokensRepository: FakeUserTokensRepository;
 let createUserUseCase: CreateUserUseCase;
+let dateProvider: DayjsDateProvider;
 
 describe("Authenticate User", () => {
   beforeEach(() => {
     fakeUsersRepository = new FakeUsersRepository();
-    authenticateUserUseCase = new AuthenticateUserUseCase(fakeUsersRepository);
+    fakeUserTokensRepository = new FakeUserTokensRepository();
+    dateProvider = new DayjsDateProvider();
+    authenticateUserUseCase = new AuthenticateUserUseCase(
+      fakeUsersRepository,
+      fakeUserTokensRepository,
+      dateProvider
+    );
     createUserUseCase = new CreateUserUseCase(fakeUsersRepository);
   });
 
