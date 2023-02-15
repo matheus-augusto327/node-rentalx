@@ -1,10 +1,10 @@
-import {
-  NextFunction, request, Request, Response,
-} from 'express';
-import { verify } from 'jsonwebtoken';
+import { NextFunction, request, Request, Response } from "express";
+import { verify } from "jsonwebtoken";
 
-import { AppError } from '@errors/AppError';
-import { UsersRepository } from '@modules/accounts/infra/typeorm/repositories/UsersRepository';
+import { AppError } from "@errors/AppError";
+import { UsersRepository } from "@modules/accounts/infra/typeorm/repositories/UsersRepository";
+import { UsersTokenRepository } from "@modules/accounts/infra/typeorm/repositories/UsersTokenRepository";
+import auth from "@config/auth";
 
 interface IPayload {
   sub: string;
@@ -13,25 +13,32 @@ interface IPayload {
 export default function ensureAuthenticated(
   req: Request,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ): void {
   const authHeader = req.headers.authorization;
+  const usersTokenRepository = new UsersTokenRepository();
 
   if (!authHeader) {
-    throw new AppError('Token missing', 401);
+    throw new AppError("Token missing", 401);
   }
 
-  const [, token] = authHeader.split(' ');
+  const [, token] = authHeader.split(" ");
 
   try {
-    const { sub: user_id } = verify(token, 'SECRET') as IPayload;
+    const { sub: user_id } = verify(
+      token,
+      auth.secret_refresh_token
+    ) as IPayload;
 
     const usersRepository = new UsersRepository();
 
-    const user = usersRepository.findById(user_id);
+    const user = usersTokenRepository.findByUserIdAndrefreshToken(
+      user_id,
+      token
+    );
 
     if (!user) {
-      throw new AppError('User does not exists!');
+      throw new AppError("User does not exists!");
     }
 
     request.user = {
@@ -40,6 +47,6 @@ export default function ensureAuthenticated(
 
     return next();
   } catch (error) {
-    throw new AppError('Invalid token!', 401);
+    throw new AppError("Invalid token!", 401);
   }
 }
