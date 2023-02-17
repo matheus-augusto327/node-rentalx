@@ -1,50 +1,17 @@
-import { container } from "tsyringe";
+import { container } from 'tsyringe';
 
-import "@shared/container/providers";
+import { IUsersRepository } from '../../modules/users/repositories/IUsersRepository';
+import { UsersRepository } from '../../modules/users/repositories/UsersRepository';
 
-import { UsersRepository } from "@modules/accounts/infra/typeorm/repositories/UsersRepository";
-import { IUsersRepository } from "@modules/accounts/repositories/IUsersRepository";
-import { CarsImagesRepository } from "@modules/cars/infra/typeorm/repositories/CarsImagesRepository";
-import { CarsRepository } from "@modules/cars/infra/typeorm/repositories/CarsRepository";
-import { CategoriesRepository } from "@modules/cars/infra/typeorm/repositories/CategoriesRepository";
-import { SpecificationsRepository } from "@modules/cars/infra/typeorm/repositories/SpecificationRepository";
-import { ICarsImagesRepository } from "@modules/cars/repositories/ICarsImagesRepository";
-import { ICarsRepository } from "@modules/cars/repositories/ICarsRepository";
-import { ICategoriesRepository } from "@modules/cars/repositories/ICategoriesRepository";
-import { ISpecificationsRepository } from "@modules/cars/repositories/ISpecificationRepository";
-import { RentalsRepository } from "@modules/rentals/infra/typeorm/repositories/RentalsRepository";
-import { IRentalsRepository } from "@modules/rentals/repositories/IRentalsRepository";
-import { IUsersTokenRepository } from "@modules/accounts/repositories/IUsersTokenRepository";
-import { UsersTokenRepository } from "@modules/accounts/infra/typeorm/repositories/UsersTokenRepository";
-
-container.registerSingleton<ICategoriesRepository>(
-  "CategoriesRepository",
-  CategoriesRepository
-);
-
-container.registerSingleton<ISpecificationsRepository>(
-  "SpecificationsRepository",
-  SpecificationsRepository
-);
+import { IStatementsRepository } from '../../modules/statements/repositories/IStatementsRepository';
+import { StatementsRepository } from '../../modules/statements/repositories/StatementsRepository';
 
 container.registerSingleton<IUsersRepository>(
-  "UsersRepository",
+  'UsersRepository',
   UsersRepository
 );
 
-container.registerSingleton<ICarsRepository>("CarsRepository", CarsRepository);
-
-container.registerSingleton<ICarsImagesRepository>(
-  "CarsImagesRepository",
-  CarsImagesRepository
-);
-
-container.registerSingleton<IRentalsRepository>(
-  "RentalsRepository",
-  RentalsRepository
-);
-
-container.registerSingleton<IUsersTokenRepository>(
-  "UsersTokenRepository",
-  UsersTokenRepository
+container.registerSingleton<IStatementsRepository>(
+  'StatementsRepository',
+  StatementsRepository
 );
